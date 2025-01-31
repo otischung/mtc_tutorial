@@ -11,9 +11,13 @@ def generate_launch_description():
     moveit_config = (
         MoveItConfigsBuilder("robot_v4", package_name="robot_moveit_config")
         .robot_description(file_path="config/robot_v4.urdf.xacro")
+        .robot_description_semantic(file_path="config/robot_v4.srdf")
+        .planning_scene_monitor(
+            publish_robot_description=True, publish_robot_description_semantic=True
+        )
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .planning_pipelines(
-            pipelines=["ompl", "chomp", "pilz_industrial_motion_planner"]
+            pipelines=["ompl", "chomp", "pilz_industrial_motion_planner", "stomp"]
         )
         .to_moveit_configs()
     )
@@ -48,6 +52,8 @@ def generate_launch_description():
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
             moveit_config.robot_description_kinematics,
+            moveit_config.planning_pipelines,
+            moveit_config.joint_limits,
         ],
     )
 
