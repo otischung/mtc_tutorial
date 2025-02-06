@@ -42,9 +42,9 @@ int main(int argc, char* argv[]) {
         msg.orientation.z = 0.0;
         msg.orientation.w = 1.0;
         // Set position values
-        msg.position.x = 0.32498640696298825;
-        msg.position.y = -0.3024952440821608;
-        msg.position.z = 1.001358523108688;
+        msg.position.x = 0.3;
+        msg.position.y = -0.3;
+        msg.position.z = 1.0;
 
         // Convert geometry_msgs::msg::Pose to Eigen::Isometry3d using tf2::fromMsg
         Eigen::Isometry3d eigen_transform;
