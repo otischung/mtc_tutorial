@@ -1,4 +1,4 @@
-#if __has_include(<tf2_geometry_msgs/tf2_geometry_msgs.hpp>)
+#if __has_include(<moveit/move_group_interface/move_group_interface.hpp>)
 #include <moveit/move_group_interface/move_group_interface.hpp>
 #else
 #include <moveit/move_group_interface/move_group_interface.h>
