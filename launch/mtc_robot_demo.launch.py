@@ -111,6 +111,12 @@ def generate_launch_description():
             )
         ]
 
+    moveit_joint_republisher = Node(
+        package="moveit_postprocess",
+        executable="moveit_joint_republisher",
+        name="moveit_joint_republisher"
+    )
+
     return LaunchDescription(
         [
             rviz_node,
@@ -118,6 +124,7 @@ def generate_launch_description():
             robot_state_publisher,
             run_move_group_node,
             ros2_control_node,
+            moveit_joint_republisher,
         ]
         + load_controllers
     )
