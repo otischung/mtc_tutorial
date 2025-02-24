@@ -27,7 +27,8 @@ def generate_launch_description():
         "capabilities": "move_group/ExecuteTaskSolutionCapability"
     }
 
-    # Start the actual move_group node/action server
+    sim_time_param = {"use_sim_time": False}
+
     run_move_group_node = Node(
         package="moveit_ros_move_group",
         executable="move_group",
@@ -35,6 +36,7 @@ def generate_launch_description():
         parameters=[
             moveit_config.to_dict(),
             move_group_capabilities,
+            sim_time_param,
         ],
     )
 
@@ -54,6 +56,7 @@ def generate_launch_description():
             moveit_config.robot_description_kinematics,
             moveit_config.planning_pipelines,
             moveit_config.joint_limits,
+            sim_time_param,
         ],
     )
 
@@ -74,6 +77,7 @@ def generate_launch_description():
         output="both",
         parameters=[
             moveit_config.robot_description,
+            sim_time_param,
         ],
     )
 
@@ -86,7 +90,7 @@ def generate_launch_description():
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[ros2_controllers_path],
+        parameters=[ros2_controllers_path, sim_time_param],
         remappings=[
             ("/controller_manager/robot_description", "/robot_description"),
         ],
@@ -114,7 +118,8 @@ def generate_launch_description():
     moveit_joint_republisher = Node(
         package="moveit_postprocess",
         executable="moveit_joint_republisher",
-        name="moveit_joint_republisher"
+        name="moveit_joint_republisher",
+        parameters=[sim_time_param],
     )
 
     return LaunchDescription(
