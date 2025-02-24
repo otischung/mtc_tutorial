@@ -130,25 +130,24 @@ int main(int argc, char* argv[]) {
         RCLCPP_ERROR(logger, "Planning failed!");
     }
 
-    auto const target_pose = [&init_pose] {
-        geometry_msgs::msg::Pose msg = init_pose;
-        msg.position.y -= 0.4;
-        return msg;
-    }();
-    move_group_interface.setPoseTarget(target_pose);
+    // Define waypoints for the Cartesian path
+    std::vector<geometry_msgs::msg::Pose> waypoints;
+    waypoints.push_back(init_pose);  // starting pose
 
-    // Create a plan to that target pose
-    auto const [success2, plan2] = [&move_group_interface] {
-        moveit::planning_interface::MoveGroupInterface::Plan msg;
-        auto const ok = static_cast<bool>(move_group_interface.plan(msg));
-        return std::make_pair(ok, msg);
-    }();
+    // Create a new pose that is a translation along the desired axis (e.g., y-axis)
+    auto target_pose = init_pose;
+    target_pose.position.y -= 0.4;
+    waypoints.push_back(target_pose);  // end pose
 
-    // Execute the plan
-    if (success2) {
-        move_group_interface.execute(plan2);
+    // Compute the Cartesian path
+    moveit_msgs::msg::RobotTrajectory trajectory;
+    double eef_step = 0.01;  // distance between interpolated points
+    double fraction = move_group_interface.computeCartesianPath(waypoints, eef_step, trajectory);
+
+    if (fraction == 1.0) {
+        move_group_interface.execute(trajectory);
     } else {
-        RCLCPP_ERROR(logger, "Planning failed!");
+        RCLCPP_ERROR(logger, "Cartesian path planning failed to compute the complete path.");
     }
 
     // Shutdown ROS
