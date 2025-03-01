@@ -114,7 +114,8 @@ int main(int argc, char* argv[]) {
 
     // Add the collision object to the scene
     moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
-    planning_scene_interface.applyCollisionObject(collision_object);
+    // planning_scene_interface.applyCollisionObject(collision_object);  // Updates synchronously.
+    planning_scene_interface.addCollisionObjects({collision_object});  // Updates asynchronously.
 
     // Create a plan to that target pose
     auto const [success, plan] = [&move_group_interface] {
