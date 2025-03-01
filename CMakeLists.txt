@@ -5,6 +5,19 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+# Install pre-commit hook
+execute_process(
+  COMMAND find ${CMAKE_CURRENT_SOURCE_DIR}/.git/hooks/ -type l -name "pre-commit" -delete
+  COMMAND ln -sf ${CMAKE_CURRENT_SOURCE_DIR}/scripts/pre-commit.hook ${CMAKE_CURRENT_SOURCE_DIR}/.git/hooks/pre-commit
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  RESULT_VARIABLE HOOK_INSTALL_RESULT
+  OUTPUT_QUIET ERROR_QUIET
+)
+
+if (HOOK_INSTALL_RESULT)
+  message(WARNING "Failed to install pre-commit hook in ${CMAKE_CURRENT_SOURCE_DIR}.")
+endif()
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(moveit_task_constructor_core REQUIRED)
