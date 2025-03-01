@@ -112,6 +112,10 @@ int main(int argc, char *argv[]) {
     }();
     move_group_interface.setPoseTarget(init_pose);
 
+    // Scale to 50% of the maximum joint speeds and accelerations
+    move_group_interface.setMaxVelocityScalingFactor(0.5);
+    move_group_interface.setMaxAccelerationScalingFactor(0.5);
+
     // Add the collision object to the scene
     moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
     // planning_scene_interface.applyCollisionObject(collision_object);  // Updates synchronously.
@@ -139,6 +143,10 @@ int main(int argc, char *argv[]) {
     auto target_pose = init_pose;
     target_pose.position.y -= 0.4;
     waypoints.push_back(target_pose);  // end pose
+
+    // Scale to 25% of the maximum joint speeds and accelerations
+    move_group_interface.setMaxVelocityScalingFactor(0.25);
+    move_group_interface.setMaxAccelerationScalingFactor(0.25);
 
     // Compute the Cartesian path
     moveit_msgs::msg::RobotTrajectory trajectory;
