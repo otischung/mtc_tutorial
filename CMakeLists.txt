@@ -10,10 +10,15 @@ find_package(ament_cmake REQUIRED)
 find_package(moveit_task_constructor_core REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(moveit_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(shape_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 
 add_executable(mtc_node src/mtc_node.cpp src/mtc_task_node.cpp)
 add_executable(hello_moveit src/hello_moveit.cpp)
 add_executable(hello_moveit_2 src/hello_moveit_2.cpp)
+add_executable(moving_obstacle src/moving_obstacle.cpp)
 target_include_directories(mtc_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
@@ -21,6 +26,9 @@ target_include_directories(hello_moveit PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 target_include_directories(hello_moveit_2 PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_include_directories(moving_obstacle PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 target_compile_features(mtc_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
@@ -40,6 +48,14 @@ ament_target_dependencies(
   "moveit_ros_planning_interface"
   "rclcpp"
 )
+ament_target_dependencies(
+  moving_obstacle
+  rclcpp
+  moveit_msgs
+  geometry_msgs
+  shape_msgs
+  std_msgs
+)
 
 install(TARGETS mtc_node
   DESTINATION lib/${PROJECT_NAME})
@@ -48,6 +64,9 @@ install(TARGETS hello_moveit
   DESTINATION lib/${PROJECT_NAME})
 
 install(TARGETS hello_moveit_2
+  DESTINATION lib/${PROJECT_NAME})
+
+install(TARGETS moving_obstacle
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY launch
