@@ -128,7 +128,7 @@ class MovingBoxPublisher : public rclcpp::Node {
  * @param argv Array of command-line arguments.
  * @return int Exit status code.
  */
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     rclcpp::init(argc, argv);
     auto node = std::make_shared<MovingBoxPublisher>();
     rclcpp::spin(node);

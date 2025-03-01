@@ -23,7 +23,7 @@
 #include <memory>
 #include <rclcpp/rclcpp.hpp>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     // Initialize ROS and create the Node
     rclcpp::init(argc, argv);
     auto const node = std::make_shared<rclcpp::Node>(

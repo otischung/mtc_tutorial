@@ -2,7 +2,7 @@
 
 static const rclcpp::Logger LOGGER = rclcpp::get_logger("mtc_tutorial");
 
-MTCTaskNode::MTCTaskNode(const rclcpp::NodeOptions& options)
+MTCTaskNode::MTCTaskNode(const rclcpp::NodeOptions &options)
     : node_{std::make_shared<rclcpp::Node>("mtc_node", options)} {
 }
 
@@ -33,7 +33,7 @@ void MTCTaskNode::doTask() {
 
     try {
         task_.init();
-    } catch (mtc::InitStageException& e) {
+    } catch (mtc::InitStageException &e) {
         RCLCPP_ERROR_STREAM(LOGGER, e);
         return;
     }
@@ -64,9 +64,9 @@ mtc::Task MTCTaskNode::createTask() {
     task.stages()->setName("demo task");
     task.loadRobotModel(node_);
 
-    const auto& arm_group_name = "panda_arm";
-    const auto& hand_group_name = "hand";
-    const auto& hand_frame = "panda_hand";
+    const auto &arm_group_name = "panda_arm";
+    const auto &hand_group_name = "hand";
+    const auto &hand_frame = "panda_hand";
 
     // Set task properties
     task.setProperty("group", arm_group_name);
@@ -78,7 +78,7 @@ mtc::Task MTCTaskNode::createTask() {
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
     // Forward current_state on to grasp pose generator
     // This creates a pointer to a stage such that we can reuse stage information in specific scenarios.
-    mtc::Stage* current_state_ptr = nullptr;
+    mtc::Stage *current_state_ptr = nullptr;
 #pragma GCC diagnostic pop
 
     // Make a current_state stage (a GENERATOR stage) and add it to our task.
@@ -134,7 +134,7 @@ mtc::Task MTCTaskNode::createTask() {
     // Later, we will use this to save a stage.
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable" /*  */
-    mtc::Stage* attach_object_stage = nullptr;             // Forward attach_object_stage to place pose generator
+    mtc::Stage *attach_object_stage = nullptr;             // Forward attach_object_stage to place pose generator
 #pragma GCC diagnostic pop
 
     /***********************

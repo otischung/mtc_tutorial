@@ -34,7 +34,7 @@ class MTCTaskNode {
      * @brief Constructor for MTCTaskNode.
      * @param options Node options for initializing the underlying ROS 2 node.
      */
-    MTCTaskNode(const rclcpp::NodeOptions& options);
+    MTCTaskNode(const rclcpp::NodeOptions &options);
 
     /**
      * @brief Getter function to get the node base interface, which will be used for the executor later.
