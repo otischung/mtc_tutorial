@@ -2,8 +2,16 @@
 #include <rclcpp/rclcpp.hpp>
 
 // Interface with the robot model and collision objects
+#if __has_include(<moveit/planning_scene/planning_scene.hpp>)
+#include <moveit/planning_scene/planning_scene.hpp>
+#else
 #include <moveit/planning_scene/planning_scene.h>
+#endif
+#if __has_include(<moveit/planning_scene_interface/planning_scene_interface.hpp>)
+#include <moveit/planning_scene_interface/planning_scene_interface.hpp>
+#else
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
+#endif
 
 // Different components of MoveIt Task Constructor that are used in the example
 #include <moveit/task_constructor/solvers.h>
