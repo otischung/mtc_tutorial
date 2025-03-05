@@ -7,7 +7,7 @@ endif()
 
 # Install pre-commit hook
 execute_process(
-  COMMAND find ${CMAKE_CURRENT_SOURCE_DIR}/.git/hooks/ -type l -name "pre-commit" -delete
+  COMMAND find ${CMAKE_CURRENT_SOURCE_DIR}/.git/hooks/ -type l -name "pre-commit" -delete || true
   COMMAND ln -sf ${CMAKE_CURRENT_SOURCE_DIR}/scripts/pre-commit.hook ${CMAKE_CURRENT_SOURCE_DIR}/.git/hooks/pre-commit
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   RESULT_VARIABLE HOOK_INSTALL_RESULT
