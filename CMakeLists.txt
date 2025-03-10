@@ -33,6 +33,7 @@ add_executable(hello_moveit src/hello_moveit.cpp)
 add_executable(hello_moveit_2 src/hello_moveit_2.cpp)
 add_executable(moving_obstacle src/moving_obstacle.cpp)
 add_executable(moving_obstacle_2 src/moving_obstacle_2.cpp)
+add_executable(mtc src/mtc.cpp)
 target_include_directories(mtc_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
@@ -46,6 +47,9 @@ target_include_directories(moving_obstacle PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 target_include_directories(moving_obstacle_2 PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_include_directories(mtc PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 target_compile_features(mtc_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
@@ -81,6 +85,16 @@ ament_target_dependencies(
   shape_msgs
   std_msgs
 )
+ament_target_dependencies(
+  mtc
+  moveit_task_constructor_core
+  moveit_ros_planning_interface
+  rclcpp
+  moveit_msgs
+  geometry_msgs
+  shape_msgs
+  std_msgs
+)
 
 install(TARGETS mtc_node
   DESTINATION lib/${PROJECT_NAME})
@@ -95,6 +109,9 @@ install(TARGETS moving_obstacle
   DESTINATION lib/${PROJECT_NAME})
 
 install(TARGETS moving_obstacle_2
+  DESTINATION lib/${PROJECT_NAME})
+
+install(TARGETS mtc
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY launch
