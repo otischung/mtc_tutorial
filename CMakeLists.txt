@@ -33,6 +33,7 @@ add_executable(hello_moveit src/hello_moveit.cpp)
 add_executable(hello_moveit_2 src/hello_moveit_2.cpp)
 add_executable(moving_obstacle src/moving_obstacle.cpp)
 add_executable(moving_obstacle_2 src/moving_obstacle_2.cpp)
+add_executable(dynamic_planning src/dynamic_planning.cpp)
 target_include_directories(mtc_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
@@ -48,8 +49,15 @@ target_include_directories(moving_obstacle PUBLIC
 target_include_directories(moving_obstacle_2 PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
+target_include_directories(dynamic_planning PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
 target_compile_features(mtc_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 target_compile_features(hello_moveit PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(hello_moveit_2 PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(moving_obstacle PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(moving_obstacle_2 PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(dynamic_planning PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 ament_target_dependencies(
   mtc_node
   "moveit_task_constructor_core"
@@ -81,6 +89,11 @@ ament_target_dependencies(
   shape_msgs
   std_msgs
 )
+ament_target_dependencies(
+  dynamic_planning
+  moveit_ros_planning_interface
+  rclcpp
+)
 
 install(TARGETS mtc_node
   DESTINATION lib/${PROJECT_NAME})
@@ -95,6 +108,9 @@ install(TARGETS moving_obstacle
   DESTINATION lib/${PROJECT_NAME})
 
 install(TARGETS moving_obstacle_2
+  DESTINATION lib/${PROJECT_NAME})
+
+install(TARGETS dynamic_planning
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY launch
