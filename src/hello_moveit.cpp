@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
     // Compute the Cartesian path
     moveit_msgs::msg::RobotTrajectory trajectory;
     double eef_step = 0.01;  // distance between interpolated points
-    double fraction = move_group_interface.computeCartesianPath(waypoints, eef_step, trajectory);
+    double fraction = move_group_interface.computeCartesianPath(waypoints, eef_step, 0.0, trajectory);
 
     if (fraction == 1.0) {
         move_group_interface.execute(trajectory);
