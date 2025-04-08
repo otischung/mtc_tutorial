@@ -100,8 +100,12 @@ int main(int argc, char *argv[]) {
 
     moveit_msgs::msg::RobotTrajectory trajectory;
     double eef_step = 0.01;  // step size for interpolating along the Cartesian path
+#ifdef ROS_DISTRO_JAZZY
+    // Prevent deprecated warning in Jazzy
+    double fraction = move_group_interface.computeCartesianPath(waypoints_to_init, eef_step, trajectory);
+#else
     double fraction = move_group_interface.computeCartesianPath(waypoints_to_init, eef_step, 0.0, trajectory);
-
+#endif
     if (fraction == 1.0) {
         RCLCPP_INFO(logger, "Cartesian path from current pose to init_pose computed successfully.");
         move_group_interface.execute(trajectory);
@@ -121,8 +125,12 @@ int main(int argc, char *argv[]) {
     waypoints_to_target.push_back(target_pose);
 
     moveit_msgs::msg::RobotTrajectory trajectory2;
+#ifdef ROS_DISTRO_JAZZY
+    // Prevent deprecated warning in Jazzy
+    fraction = move_group_interface.computeCartesianPath(waypoints_to_target, eef_step, trajectory2);
+#else
     fraction = move_group_interface.computeCartesianPath(waypoints_to_target, eef_step, 0.0, trajectory2);
-
+#endif
     if (fraction == 1.0) {
         RCLCPP_INFO(logger, "Cartesian path from init_pose to target_pose computed successfully.");
         move_group_interface.execute(trajectory2);
