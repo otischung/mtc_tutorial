@@ -16,7 +16,7 @@ using namespace std::chrono_literals;
  * Example:
  *   ros2 run <package_name> moving_obstacle_2 --ros-args -p speed:=0.3
  */
-class MovingBoxPublisher : public rclcpp::Node {
+class MovingBoxPublisher2 : public rclcpp::Node {
    public:
     /**
      * @brief Construct a new MovingBoxPublisher object.
@@ -24,7 +24,7 @@ class MovingBoxPublisher : public rclcpp::Node {
      * Initializes the node, declares the "speed" parameter, sets up the publisher on the
      * "/collision_object" topic, and creates a timer callback that periodically updates the box's position.
      */
-    MovingBoxPublisher()
+    MovingBoxPublisher2()
         : Node("moving_box_publisher_2"), y_pos_(0.0), y_dir_(1.0) {
         // Declare the "speed" parameter with default value 0.5 m/s.
         this->declare_parameter<double>("speed", 0.5);
@@ -34,7 +34,7 @@ class MovingBoxPublisher : public rclcpp::Node {
         publisher_ = this->create_publisher<moveit_msgs::msg::CollisionObject>("/collision_object", 10);
 
         // Timer callback updates every 10ms.
-        timer_ = this->create_wall_timer(10ms, std::bind(&MovingBoxPublisher::timer_callback, this));
+        timer_ = this->create_wall_timer(10ms, std::bind(&MovingBoxPublisher2::timer_callback, this));
     }
 
    private:
@@ -119,7 +119,7 @@ class MovingBoxPublisher : public rclcpp::Node {
  */
 int main(int argc, char **argv) {
     rclcpp::init(argc, argv);
-    auto node = std::make_shared<MovingBoxPublisher>();
+    auto node = std::make_shared<MovingBoxPublisher2>();
     rclcpp::spin(node);
     rclcpp::shutdown();
     return 0;

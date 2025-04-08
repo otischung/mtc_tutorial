@@ -18,6 +18,22 @@ if (HOOK_INSTALL_RESULT)
   message(WARNING "Failed to install pre-commit hook in ${CMAKE_CURRENT_SOURCE_DIR}.")
 endif()
 
+# Prevent deprecated warning in Jazzy
+if(DEFINED ENV{ROS_DISTRO})
+  string(TOUPPER "$ENV{ROS_DISTRO}" ROS_DISTRO_UPPER)
+  if(ROS_DISTRO_UPPER STREQUAL "FOXY")
+    add_definitions(-DROS_DISTRO_FOXY)
+  elseif(ROS_DISTRO_UPPER STREQUAL "GALACTIC")
+    add_definitions(-DROS_DISTRO_GALACTIC)
+  elseif(ROS_DISTRO_UPPER STREQUAL "HUMBLE")
+    add_definitions(-DROS_DISTRO_HUMBLE)
+  elseif(ROS_DISTRO_UPPER STREQUAL "JAZZY")
+    add_definitions(-DROS_DISTRO_JAZZY)
+  else()
+    add_definitions(-DROS_DISTRO_UNKNOWN)
+  endif()
+endif()
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(moveit_task_constructor_core REQUIRED)

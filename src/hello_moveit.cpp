@@ -151,8 +151,12 @@ int main(int argc, char *argv[]) {
     // Compute the Cartesian path
     moveit_msgs::msg::RobotTrajectory trajectory;
     double eef_step = 0.01;  // distance between interpolated points
+#ifdef ROS_DISTRO_JAZZY
+    // Prevent deprecated warning in Jazzy
+    double fraction = move_group_interface.computeCartesianPath(waypoints, eef_step, trajectory);
+#else
     double fraction = move_group_interface.computeCartesianPath(waypoints, eef_step, 0.0, trajectory);
-
+#endif
     if (fraction == 1.0) {
         move_group_interface.execute(trajectory);
     } else {
